@@ -37,7 +37,19 @@ int main (void){
                 flag=2; //estado 2
                 break; //para solo ejecutar caso1
 
-                case 2: //solo esn ombre de estado
+                //prueba giro largo 1
+                case 2:
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(50); //abra un delay
+                PORTD&=~(0XC0); //el motor 1 en 0
+                PORTD|=(0X08);//el pin4 en 1
+                flag=3; //estado 2
+                break; //para solo ejecutar caso1
+
+                
+
+                case 3: //solo esn ombre de estado
                 PORTD&=~(0X0C); //apagados pd7 y pd6
                 PORTD&=~(0XC0);
                 flag=0; // se va volver al estado 0
