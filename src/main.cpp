@@ -1,4 +1,56 @@
+//codigo clase un motor giro derecha izquierda con pulsador
+#define F_CPU 16000000UL  
+#include <avr/io.h>  
+#include <util/delay.h> 
 
+int main (void){
+    DDRD|=(0XC0); //este sonl os pines para el control del motor 1
+    PORTD&=~(0XC0);
+
+    DDRC|=(0X0C); //motor 2
+    PORTD&=~(0x0c);
+
+    DDRD&=~(0X20); //del boton como entrada
+    PORTD|=(0X20); //pull del boton
+
+    char flag=0; //variable de estado del sistema
+
+    while(1){ //cadena de inico
+    if(!(PIND&0x20)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
+        _delay_ms(100); //evitar ruidos
+
+
+        if(flag==0){
+            PORTD&=~(0XC0);
+            PORTD|=0X80; //si esta en reposo se enciende el in2 
+            PORTD&=~(0X0C);
+            PORTD|=0X08;
+            flag=1; //estado 1
+        }
+        else{
+            if(flag==1){
+                PORTD&=~(0XC0); //apaga los motores
+                PORTD&=~(0X0C);
+
+                _delay_ms(50); // evitar ruidos
+                PORTD|=(0X40); //se enciende el in1 cambiando el giro
+                PORTD|=(0X04);
+                flag=2; //estado 2
+
+            }
+            else{
+                PORTD&=~(0XC0); //apagara el motor
+                PORTD &=~(0X0C);
+                _delay_ms(50);
+                flag=0; //vuelve al estado 0
+            }
+        }
+    }    
+    
+}
+}
+        
+/*
 //codigo clase un motor giro derecha izquierda con pulsador
 #define F_CPU 16000000UL  
 #include <avr/io.h>  
@@ -39,9 +91,10 @@ int main (void){
     
 }
 }
+*/
 
 /*
-//codigo uniendo los dos motores funcionen al mismo tiempo con 1 boton
+//codigo uniendo los dos motores funcionen al mismo tiempo con 1 boton switch
 #define F_CPU 16000000UL  
 #include <avr/io.h>  
 #include <util/delay.h> 
