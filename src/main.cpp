@@ -1,3 +1,46 @@
+
+#define F_CPU 16000000UL  
+#include <avr/io.h>  
+#include <util/delay.h> 
+
+int main (void){
+    DDRD|=(0XC0); //este sonl os pines para el control del motor 1
+    PORTD&=~(0XC0);
+
+    DDRD|=(0X0C); //motor 2
+    PORTD&=~(0x0c);
+
+    DDRB&=~(0X02); //del boton como entrada
+    PORTB|=(0X02); //pull del boton
+
+    char C=0; //variable de estado del sistema
+
+    while(1){ //cadena de inico
+    if(!(PINB&0x02)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
+        _delay_ms(100); //evitar ruidos
+
+        if (C == 0) {
+            // Apagar Motor 1 (PD6/PD7), encender Motor 2 (PD4)
+            PORTD &= ~0x0C;     // Apaga PD6 y PD7
+            PORTD &= ~0xC0;
+            _delay_ms(100);
+            PORTD |= 0x40;      // PD4 ON (Motor 2)
+            PORTD &= ~0x08;     // PD5 OFF
+            C = 1;
+        } else {
+            // Apagar Motor 2 (PD4/PD5), encender Motor 1 (PD6)
+            PORTD &= ~0xC0;     // Apaga PD4 y PD5
+            PORTD &= ~0x0C;
+            _delay_ms(100);
+            PORTD |= 0x04;      // PD6 ON (Motor 1)
+            PORTD &= ~0x80;     // PD7 OFF
+            C = 0;
+        }
+    }
+}
+}
+
+/*
 //codigo clase un motor giro derecha izquierda con pulsador
 #define F_CPU 16000000UL  
 #include <avr/io.h>  
@@ -49,6 +92,8 @@ int main (void){
     
 }
 }
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
 /*
 //codigo clase un motor giro derecha izquierda con pulsador
