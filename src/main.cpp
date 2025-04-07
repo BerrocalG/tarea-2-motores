@@ -1,3 +1,4 @@
+
 //botno 2 giro corto 
 #define F_CPU 16000000UL  
 #include <avr/io.h>  
@@ -12,8 +13,15 @@ int main (void){
 
     DDRB&=~(0X01); //del boton como entrada
     PORTB|=(0X01); //pull del boton
+    DDRB&=~(0X02); //del boton como entrada
+    PORTB|=(0X02); //pull del boton
+    DDRD&=~(0X20); //del boton como entrada
+    PORTD|=(0X20); //pull del boton
+
 
     char B=0; //variable de estado del sistema
+    char C=0;
+    char flag=0;
 
     while(1){ //cadena de inico
     if(!(PINB&0x01)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
@@ -39,6 +47,59 @@ int main (void){
             PORTD |= 0x40;      
             PORTD &= ~0x80;
             B = 0;
+        }
+
+    }
+    if(!(PIND&0x20)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
+        _delay_ms(100); //evitar ruidos
+
+
+        if(flag==0){
+            PORTD&=~(0XC0);
+            PORTD|=0X80; //si esta en reposo se enciende el in2 
+            PORTD&=~(0X0C);
+            PORTD|=0X08;
+            flag=1; //estado 1
+        }
+        else{
+            if(flag==1){
+                PORTD&=~(0XC0); //apaga los motores
+                PORTD&=~(0X0C);
+
+                _delay_ms(50); // evitar ruidos
+                PORTD|=(0X40); //se enciende el in1 cambiando el giro
+                PORTD|=(0X04);
+                flag=2; //estado 2
+
+            }
+            else{
+                PORTD&=~(0XC0); //apagara el motor
+                PORTD &=~(0X0C);
+                _delay_ms(50);
+                flag=0; //vuelve al estado 0
+            }
+        }
+    }
+
+    if(!(PINB&0x02)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
+        _delay_ms(100); //evitar ruidos
+
+        if (C == 0) {
+            // Apagar Motor 1 (PD6/PD7), encender Motor 2 (PD4)
+            PORTD &= ~0x0C;     // Apaga PD6 y PD7
+            PORTD &= ~0xC0;
+            _delay_ms(100);
+            PORTD |= 0x40;      // PD4 ON (Motor 2)
+            PORTD &= ~0x08;     // PD5 OFF
+            C = 1;
+        } else {
+            // Apagar Motor 2 (PD4/PD5), encender Motor 1 (PD6)
+            PORTD &= ~0xC0;     // Apaga PD4 y PD5
+            PORTD &= ~0x0C;
+            _delay_ms(100);
+            PORTD |= 0x04;      // PD6 ON (Motor 1)
+            PORTD &= ~0x80;     // PD7 OFF
+            C = 0;
         }
     }
 }
@@ -139,6 +200,7 @@ int main (void){
     
 }
 }
+
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
