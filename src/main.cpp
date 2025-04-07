@@ -21,7 +21,7 @@ int main (void){
 
     char B=0; //variable de estado del sistema
     char C=0;
-    char flag=0;
+    char A=0;
 
     while(1){ //cadena de inico
     if(!(PINB&0x01)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
@@ -54,32 +54,22 @@ int main (void){
         _delay_ms(100); //evitar ruidos
 
 
-        if(flag==0){
-            PORTD&=~(0XC0);
+        if(A==0){
             PORTD|=0X80; //si esta en reposo se enciende el in2 
-            PORTD&=~(0X0C);
+            PORTD&=~0X40;
+            _delay_ms(100);
             PORTD|=0X08;
-            flag=1; //estado 1
+            PORTD&=~0X04;
+            A=1; //estado 1
         }
         else{
-            if(flag==1){
-                PORTD&=~(0XC0); //apaga los motores
-                PORTD&=~(0X0C);
-
-                _delay_ms(50); // evitar ruidos
-                PORTD|=(0X40); //se enciende el in1 cambiando el giro
-                PORTD|=(0X04);
-                flag=2; //estado 2
-
-            }
-            else{
                 PORTD&=~(0XC0); //apagara el motor
                 PORTD &=~(0X0C);
                 _delay_ms(50);
-                flag=0; //vuelve al estado 0
+                A=0; //vuelve al estado 0
             }
         }
-    }
+    
 
     if(!(PINB&0x02)){ // cuando se pulsa el d5 se qda en 0 por eso se niega para volverlo 1
         _delay_ms(100); //evitar ruidos
@@ -89,16 +79,16 @@ int main (void){
             PORTD &= ~0x0C;     // Apaga PD6 y PD7
             PORTD &= ~0xC0;
             _delay_ms(100);
-            PORTD |= 0x40;      // PD4 ON (Motor 2)
-            PORTD &= ~0x08;     // PD5 OFF
+            PORTD |= 0x40;      // motor 2 prendido apra adelante
+            PORTD &= ~0x08;     // motor1 apagado
             C = 1;
         } else {
             // Apagar Motor 2 (PD4/PD5), encender Motor 1 (PD6)
             PORTD &= ~0xC0;     // Apaga PD4 y PD5
             PORTD &= ~0x0C;
             _delay_ms(100);
-            PORTD |= 0x04;      // PD6 ON (Motor 1)
-            PORTD &= ~0x80;     // PD7 OFF
+            PORTD |= 0x04;      // motor 1 prendido para atras
+            PORTD &= ~0x80;     // motor 2 apagado
             C = 0;
         }
     }
