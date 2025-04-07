@@ -17,6 +17,7 @@ int main (void){
 
 
         if(flag==0){
+            PORTD&=~(0XC0);
             PORTD|=0X80; //si esta en reposo se enciende el in2 
             flag=1; //estado 1
         }
@@ -30,6 +31,7 @@ int main (void){
             }
             else{
                 PORTD&=~(0XC0); //apagara el motor
+                _delay_ms(50);
                 flag=0; //vuelve al estado 0
             }
         }
