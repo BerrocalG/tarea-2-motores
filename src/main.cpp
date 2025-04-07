@@ -1,3 +1,4 @@
+
 //codigo uniendo los dos motores funcionen al mismo tiempo con 1 boton
 #define F_CPU 16000000UL  
 #include <avr/io.h>  
@@ -7,6 +8,7 @@ int main (void){
     //motor 1
     DDRD|=0XC0;
     PORTD&=~(0XC0);
+
     //motor 2
     DDRD|=0X0C;
     PORTD&=~(0X0C);
@@ -17,6 +19,7 @@ int main (void){
     char flag=0;
 
     while(1) {
+      
 
         if(!(PIND&0X20)){ //cuando el pin del boton este en 0 se va a prender
             _delay_ms(100);
@@ -80,14 +83,16 @@ int main (void){
 
 
                 case 6: //solo esn ombre de estado
-                PORTD&=~(0X0C); //apagados pd7 y pd6
-                PORTD&=~(0XC0);
+                PORTD&=~(0XC0); //apagados pd7 y pd6
+                PORTD&=~(0X0C);
                 flag=0; // se va volver al estado 0
                 break; //no seguir ejecutando
             }
         }
     } 
 }
+
+
 /*
 //codigo base clase para 1 motor
 #define F_CPU 16000000UL  
