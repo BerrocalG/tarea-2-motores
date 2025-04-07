@@ -28,10 +28,10 @@ int main (void){
                 flag=1; //estado1
                 break; // para que solo ejecute ese bloque
 
-                case 1:
+                case 1: //dos adelante
                 PORTD&=~(0X0C); //cuando el pd7 y pd6 esten en 1 se va negar y se volvera 0 significando que esta apagado
                 PORTD&=~(0XC0);
-                _delay_ms(50); //abra un delay
+                _delay_ms(100); //abra un delay
                 PORTD|=(0X04); //el pin pd6 va a estar en 1 girando en otro sentido
                 PORTD|=(0X40);
                 flag=2; //estado 2
@@ -41,15 +41,45 @@ int main (void){
                 case 2:
                 PORTD&=~(0X0C); 
                 PORTD&=~(0XC0);
-                _delay_ms(50); //abra un delay
+                _delay_ms(100); //abra un delay
                 PORTD&=~(0XC0); //el motor 1 en 0
                 PORTD|=(0X08);//el pin4 en 1
                 flag=3; //estado 2
                 break; //para solo ejecutar caso1
 
-                
+                //prueba giro largo 2
+                case 3:
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD&=~(0X0C); //el pin pd6 va a estar en 1 girando en otro sentido
+                PORTD|=(0X80);
+                flag=4; //estado 2
+                break; //para solo ejecutar caso1
 
-                case 3: //solo esn ombre de estado
+                //prueba giro corto 1
+                case 4:
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD|=(0X80); //el motor 1 en 0
+                PORTD|=(0X04);//el pin4 en 1
+                flag=5; //estado 2
+                break; //para solo ejecutar caso1
+
+                //prueba giro corto 2
+
+                case 5:
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD|=(0X40); //
+                PORTD|=(0X08);//el pin4 en 1
+                flag=5; //estado 2
+                break; //para solo ejecutar caso1
+
+
+                case 6: //solo esn ombre de estado
                 PORTD&=~(0X0C); //apagados pd7 y pd6
                 PORTD&=~(0XC0);
                 flag=0; // se va volver al estado 0
