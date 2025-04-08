@@ -1,5 +1,82 @@
+#define F_CPU 16000000UL  
+#include <avr/io.h>  
+#include <util/delay.h> 
 
-//botno 2 giro corto 
+int main(void) {
+    DDRD |= 0xC0; // PD6 y PD7 salida (motor 1)
+    PORTD &= ~0xC0;
+
+    DDRD |= 0x0C; // PD2 y PD3 salida (motor 2)
+    PORTD &= ~0x0C;
+
+    DDRB &= ~0x02; // PB1 como entrada (botón 1)
+    PORTB |= 0x02; // pull-up para botón 1
+
+    DDRB &= ~0x01; // PB0 como entrada (botón 2)
+    PORTB |= 0x01; // pull-up para botón 2
+
+    DDRD &= ~0x20; // PD5 como entrada (botón 3)
+    PORTD |= 0x20; // pull-up para botón 3
+
+    char A = 0;
+    char B = 0;
+
+    while (1) {
+        // Primera condición gira motor 1 apaga motor 2
+        if (!(PINB & 0x02) && !(PINB & 0x01)) {
+            _delay_ms(100);
+            if (A == 0) {
+                PORTD &= ~0x0C;     // Apaga motor 2
+                PORTD &= ~0xC0;     // Apaga motor 1
+                _delay_ms(100);
+                PORTD |= 0x40;      // Enciende PD6 (motor 1)
+                PORTD &= ~0x80;     // Apaga PD7
+                A = 1;
+                B = 0;              // corta la otra condición
+            }
+        }
+
+        // Segunda condición  gira motor 2 apaga motor 1
+        if (!(PINB & 0x01) && !(PIND & 0x20)) {
+            _delay_ms(100);
+            if (B == 0) {
+                PORTD &= ~0x0C;     // Apaga motor 2
+                PORTD &= ~0xC0;     // Apaga motor 1
+                _delay_ms(100);
+                PORTD |= 0x04;      // Enciende PD2 (motor 2)
+                PORTD &= ~0x08;     // apaga PD3
+                B = 1;
+                A = 0;              // corta la otra condición
+            }
+        }
+    }
+}
+
+    
+            /*
+        } else {
+            // Apagar Motor 2 (PD4/PD5), encender Motor 1 (PD6)
+            PORTD &= ~0xC0;     // Apaga PD4 y PD5
+            PORTD &= ~0x0C;
+            _delay_ms(100);
+            PORTD |= 0x04;      // PD6 ON (Motor 1)
+            PORTD &= ~0x80;     // PD7 OFF
+            C = 0;
+        }
+    }
+    */
+
+
+
+
+    
+
+
+
+
+    
+/*
+//codigo funcional con 3 botones pero secuencial
 #define F_CPU 16000000UL  
 #include <avr/io.h>  
 #include <util/delay.h> 
@@ -17,7 +94,6 @@ int main (void){
     PORTB|=(0X02); //pull del boton
     DDRD&=~(0X20); //del boton como entrada
     PORTD|=(0X20); //pull del boton
-
 
     char B=0; //variable de estado del sistema
     char C=0;
@@ -94,6 +170,8 @@ int main (void){
     }
 }
 }
+
+*/
 
 /*
 //boton 3 para giro largo
