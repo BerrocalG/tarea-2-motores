@@ -40,6 +40,8 @@ int main(void) {
                 C = 0;
                 D = 0;
                 E = 0;
+                F = 0;
+
             }
         }
         else{ //si solo presiono el b2  se ejecuta lo anterior que va actvar ambos motoresm1 isquierda m2 derecha
@@ -60,6 +62,8 @@ int main(void) {
                     D = 0;
                     A = 0;
                     E = 1;
+                    F = 0;
+
     
                 }
         }
@@ -77,9 +81,34 @@ int main(void) {
                 C = 0;
                 D = 0;
                 E = 0;
+                F = 0;
                 A = 0;              // corta la otra condición
             }
         }
+        
+        else{ //si solo presiono el b1  van los dos hacia adedlante
+            if (!(PINB & 0x01)) {
+                _delay_ms(100);
+
+                if (F == 0) {
+    
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD|=(0X04); //
+                PORTD|=(0X40);//
+
+    
+                    B = 0;
+                    C = 0;
+                    D = 0;
+                    A = 0;
+                    E = 0;
+                    F = 1;
+                }
+            }
+        }
+    
         //giro corto 1 m1 derecha m2 izquierda
         if (!(PIND & 0x20) && !(PINB & 0x02)) {
             _delay_ms(100);
@@ -95,15 +124,16 @@ int main(void) {
                 D = 1;
                 A = 0; 
                 E = 0;
-            }
-        }
-        
+                F = 0;
 
-                
+            }
+        }       
 
     }
 }
 }
+        
+
 
             
         /* por arreglar
