@@ -20,7 +20,10 @@ int main(void) {
 
     char A = 0;
     char B = 0;
-    char C=0;
+    char C = 0;
+    char D = 0;
+    char E = 0;
+    char F = 0;
 
     while (1) {
         // Primera condición gira motor 1 apaga motor 2 botnon2+boton3
@@ -35,6 +38,7 @@ int main(void) {
                 A = 1;
                 B = 0;              // corta la otra condición
                 C = 0;
+                D = 0;
             }
         }
 
@@ -49,10 +53,40 @@ int main(void) {
                 PORTD &= ~0x08;     // apaga PD3
                 B = 1;
                 C = 0;
+                D = 0;
                 A = 0;              // corta la otra condición
             }
         }
-        /*por arreglar
+        //giro corto 1 m1 derecha m2 izquierda
+        if (!(PIND & 0x20) && !(PINB & 0x02)) {
+            _delay_ms(100);
+            if (D == 0) {
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD|=(0X80); //el motor 1 en 0
+                PORTD|=(0X04);//el pin4 en 1
+                B = 0;
+                C = 0;
+                D = 1;
+                A = 0; 
+            }
+        }
+    }
+}
+/*
+               
+        if (!(PINB & 0x01) && !(PIND & 0x20)) {
+                _delay_ms(100);
+                if (E == 0) {
+
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD|=(0X40); //
+                PORTD|=(0X08);//el pin4 en 1
+            */
+        /* por arreglar
         if(!(PIND&0X50)){
 
             if(C==0){
@@ -69,10 +103,7 @@ int main(void) {
             }
 
 */
-        }
-    }
-
-}
+     
 
 
 
