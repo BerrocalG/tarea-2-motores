@@ -33,8 +33,8 @@ int main(void) {
                 PORTD &= ~0x0C;     // Apaga motor 2
                 PORTD &= ~0xC0;     // Apaga motor 1
                 _delay_ms(100);
-                PORTD |= 0x40;      // Enciende PD6 (motor 1)
-                PORTD &= ~0x80;     // Apaga PD7
+                PORTD |= 0x80;      // Enciende PD6 (motor 1)
+                PORTD &= ~0x40;     // Apaga PD7
                 A = 1;
                 B = 0;              // corta la otra condición
                 C = 0;
@@ -75,8 +75,8 @@ int main(void) {
                 PORTD &= ~0x0C;     // Apaga motor 2
                 PORTD &= ~0xC0;     // Apaga motor 1
                 _delay_ms(100);
-                PORTD |= 0x04;      // Enciende PD2 (motor 2)
-                PORTD &= ~0x08;     // apaga PD3
+                PORTD |= 0x08;      // Enciende PD2 (motor 2)
+                PORTD &= ~0x04;     // apaga PD3
                 B = 1;
                 C = 0;
                 D = 0;
@@ -95,8 +95,8 @@ int main(void) {
                 PORTD&=~(0X0C); 
                 PORTD&=~(0XC0);
                 _delay_ms(100); //abra un delay
-                PORTD|=(0X04); //
-                PORTD|=(0X40);//
+                PORTD|=(0X08); // ambos
+                PORTD|=(0X80);//
 
     
                     B = 0;
@@ -110,13 +110,13 @@ int main(void) {
         }
     
         //giro corto 1 m1 derecha m2 izquierda
-        if (!(PIND & 0x20) && !(PINB & 0x02)) {
+        if (!(PINB & 0x02) && !(PIND & 0x20)) {
             _delay_ms(100);
             if (D == 0) {
                 PORTD&=~(0X0C); 
                 PORTD&=~(0XC0);
                 _delay_ms(100); //abra un delay
-                PORTD|=(0X80); //el motor 1 en 0
+                PORTD|=(0X80); //
                 PORTD|=(0X04);//el pin4 en 1
                 
                 B = 0;
@@ -146,7 +146,7 @@ int main(void) {
                     D = 0;
                     A = 0;
                     E = 0;
-                    F = 1;
+                    F = 0;
                 }
             }
         }
