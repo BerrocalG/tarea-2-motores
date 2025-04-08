@@ -39,7 +39,29 @@ int main(void) {
                 B = 0;              // corta la otra condición
                 C = 0;
                 D = 0;
+                E = 0;
             }
+        }
+        else{ //si solo presiono el b2  se ejecuta lo anterior que va actvar ambos motoresm1 isquierda m2 derecha
+            if (!(PINB & 0x02)) {
+                _delay_ms(100);
+                if (E == 0) {
+    
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD|=(0X40); //
+                PORTD|=(0X08);//el pin4 en 1
+                PORTD &= ~0x80;
+                PORTD &= ~0x04;
+    
+                    B = 0;
+                    C = 0;
+                    D = 0;
+                    A = 0;
+                    E = 1;
+    
+                }
         }
 
         // Segunda condición  gira motor 2 apaga motor 1 boton1+boton2
@@ -54,6 +76,7 @@ int main(void) {
                 B = 1;
                 C = 0;
                 D = 0;
+                E = 0;
                 A = 0;              // corta la otra condición
             }
         }
@@ -66,26 +89,23 @@ int main(void) {
                 _delay_ms(100); //abra un delay
                 PORTD|=(0X80); //el motor 1 en 0
                 PORTD|=(0X04);//el pin4 en 1
+                
                 B = 0;
                 C = 0;
                 D = 1;
                 A = 0; 
+                E = 0;
             }
         }
+        
+
+                
+
     }
 }
-/*
-               
-        if (!(PINB & 0x01) && !(PIND & 0x20)) {
-                _delay_ms(100);
-                if (E == 0) {
+}
 
-                PORTD&=~(0X0C); 
-                PORTD&=~(0XC0);
-                _delay_ms(100); //abra un delay
-                PORTD|=(0X40); //
-                PORTD|=(0X08);//el pin4 en 1
-            */
+            
         /* por arreglar
         if(!(PIND&0X50)){
 
