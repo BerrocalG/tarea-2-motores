@@ -127,7 +127,30 @@ int main(void) {
                 F = 0;
 
             }
-        }       
+        } 
+        else{ //APAGADO AMBOS MOTORES
+            if (!(PIND & 0x20)) {
+                _delay_ms(100);
+
+                if (C == 0) {
+    
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+                _delay_ms(100); //abra un delay
+                PORTD&=~(0X0C); 
+                PORTD&=~(0XC0);
+
+    
+                    B = 0;
+                    C = 1;
+                    D = 0;
+                    A = 0;
+                    E = 0;
+                    F = 1;
+                }
+            }
+        }
+          
 
     }
 }
