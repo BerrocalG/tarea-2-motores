@@ -75,8 +75,8 @@ int main(void) {
                 PORTD &= ~0x0C;     // Apaga motor 2
                 PORTD &= ~0xC0;     // Apaga motor 1
                 _delay_ms(100);
-                PORTD |= 0x08;      // Enciende PD2 (motor 2)
-                PORTD &= ~0x04;     // apaga PD3
+                PORTD |= 0x04;      // Enciende PD2 (motor 2)
+                PORTD &= ~0x08;     // apaga PD3
                 B = 1;
                 C = 0;
                 D = 0;
