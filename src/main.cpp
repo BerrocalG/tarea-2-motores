@@ -20,9 +20,10 @@ int main(void) {
 
     char A = 0;
     char B = 0;
+    char C=0;
 
     while (1) {
-        // Primera condición gira motor 1 apaga motor 2
+        // Primera condición gira motor 1 apaga motor 2 botnon2+boton3
         if (!(PINB & 0x02) && !(PINB & 0x01)) {
             _delay_ms(100);
             if (A == 0) {
@@ -33,10 +34,11 @@ int main(void) {
                 PORTD &= ~0x80;     // Apaga PD7
                 A = 1;
                 B = 0;              // corta la otra condición
+                C = 0;
             }
         }
 
-        // Segunda condición  gira motor 2 apaga motor 1
+        // Segunda condición  gira motor 2 apaga motor 1 boton1+boton2
         if (!(PINB & 0x01) && !(PIND & 0x20)) {
             _delay_ms(100);
             if (B == 0) {
@@ -46,31 +48,31 @@ int main(void) {
                 PORTD |= 0x04;      // Enciende PD2 (motor 2)
                 PORTD &= ~0x08;     // apaga PD3
                 B = 1;
+                C = 0;
                 A = 0;              // corta la otra condición
             }
         }
-    }
-}
+        /*por arreglar
+        if(!(PIND&0X50)){
 
-    
-            /*
-        } else {
-            // Apagar Motor 2 (PD4/PD5), encender Motor 1 (PD6)
-            PORTD &= ~0xC0;     // Apaga PD4 y PD5
+            if(C==0){
+            PORTD &= ~0xC0;     
             PORTD &= ~0x0C;
             _delay_ms(100);
-            PORTD |= 0x04;      // PD6 ON (Motor 1)
-            PORTD &= ~0x80;     // PD7 OFF
-            C = 0;
+            PORTD |= 0x08;      
+            PORTD &= ~0x04;      
+            PORTD |= 0x40;      
+            PORTD &= ~0x80;
+            B = 0;
+                C = 1;
+                A = 0;  
+            }
+
+*/
         }
     }
-    */
 
-
-
-
-    
-
+}
 
 
 
